@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
+  // ELEMENT SELECTION
   const title = document.querySelector(".title");
+  const header = document.querySelector("header");
   const typingText = document.querySelector(".typing");
   const promptText = document.querySelector(".prompt");
   const yesButton = document.getElementById("yes-btn");
@@ -12,72 +14,76 @@ document.addEventListener("DOMContentLoaded", function() {
   const signature = document.querySelector(".signature");
   const returnBtn = document.getElementById("return-btn");
 
-  // Arrays for dynamic return messages
+  // ARRAYS FOR DYNAMIC RETURN MESSAGES
   const yesReturnMessages = [
     "Back for another round? Keep pushing, legend!",
     "Greatness is built through consistency. Let’s go!",
     "Welcome back, champion! Another mission awaits!"
   ];
-
   const noReturnMessages = [
     "Changed your mind? I knew you would. Let’s go!",
     "Back again? I respect the hustle. Let’s get coding!",
     "You hesitated… but destiny brought you back. Let's do this!"
   ];
 
-  // Unique messages for execution success
-  const successMessages = [
-    "🔥 Well done, [username]! You've just unlocked another level of greatness. Keep executing, keep winning!",
-    "🚀 Boom! Execution complete. Success is now in motion, [username]. Your journey to the top continues!",
-    "💡 Genius move, [username]! Execution isn't magic—it's strategy. Stay sharp and conquer!",
-    "✨ [username], you've executed with precision. The world bends to your will. Onward to victory!",
-    "⚡ Execution successful, [username]! Your code is your legacy. Build, dominate, and inspire!"
-  ];
-
-  // Initial motivational text to type out
-  const motivationText = `Success isn't about luck—it's about discipline, resilience, and execution.
+  // DEFAULT MOTIVATIONAL TEXT
+  const defaultMotivationText = `Success isn't about luck—it's about discipline, resilience, and execution.
 Every step forward brings you closer. Don't fear failure—debug it.
 First-class isn't a dream; it's a decision. Rise, push forward, and execute!`;
 
-  // Use localStorage to decide what message to show if user is returning
-  let previousChoice = localStorage.getItem("userChoice");
-
-  // Helper: set a random message immediately if user is returning
-  if (previousChoice === "yes") {
-    typingText.textContent = yesReturnMessages[Math.floor(Math.random() * yesReturnMessages.length)];
-    promptText.textContent = "Ready to execute again?";
-    // Show the buttons after a short delay
-    setTimeout(() => {
-      yesButton.style.display = "inline-block";
-      noButton.style.display = "inline-block";
-    }, 500);
-  } else if (previousChoice === "no") {
-    typingText.textContent = noReturnMessages[Math.floor(Math.random() * noReturnMessages.length)];
-    promptText.textContent = "Ready to try again?";
-    setTimeout(() => {
-      yesButton.style.display = "inline-block";
-      noButton.style.display = "inline-block";
-    }, 500);
+  // Determine which message to show (for returning users)
+  let userChoice = localStorage.getItem("userChoice");
+  let dynamicMotivationText = "";
+  if (userChoice === "yes") {
+    dynamicMotivationText = yesReturnMessages[Math.floor(Math.random() * yesReturnMessages.length)];
+  } else if (userChoice === "no") {
+    dynamicMotivationText = noReturnMessages[Math.floor(Math.random() * noReturnMessages.length)];
   } else {
-    // First-time visitor: use the typing effect
-    let index = 0;
-    function typeEffect(text, element, callback) {
-      if (index < text.length) {
-        element.textContent += text[index];
-        index++;
-        setTimeout(() => typeEffect(text, element, callback), 50);
-      } else {
-        if (callback) callback();
-      }
-    }
-    typeEffect(motivationText, typingText, () => {
-      setTimeout(() => {
-        promptText.textContent = "Are you ready to execute?";
-        yesButton.style.display = "inline-block";
-        noButton.style.display = "inline-block";
-      }, 1000);
-    });
+    dynamicMotivationText = defaultMotivationText;
   }
+
+  // HEADER FADE‑IN EFFECT
+  header.style.opacity = "0";
+  header.style.transform = "translateY(-20px)";
+  setTimeout(() => {
+    header.style.transition = "opacity 1.5s ease-out, transform 1.5s ease-out";
+    header.style.opacity = "1";
+    header.style.transform = "translateY(0)";
+  }, 500);
+
+  // Set signature to initial invisible state (to fade in later)
+  signature.style.opacity = "0";
+
+  // TYPE EFFECT FUNCTION
+  let index = 0;
+  function typeEffect(text, element, callback) {
+    if (index < text.length) {
+      element.textContent += text[index];
+      index++;
+      setTimeout(() => typeEffect(text, element, callback), 50);
+    } else {
+      if (callback) callback();
+    }
+  }
+
+  // Start typing the motivational text (or dynamic return message)
+  typeEffect(dynamicMotivationText, typingText, () => {
+    // After typing finishes, wait 1 second then display the prompt and fade in the buttons.
+    setTimeout(() => {
+      promptText.textContent = "Are you ready to execute?";
+      // Prepare buttons for a smooth fade‑in:
+      yesButton.style.opacity = "0";
+      noButton.style.opacity = "0";
+      yesButton.style.display = "inline-block";
+      noButton.style.display = "inline-block";
+      yesButton.style.transition = "opacity 1s";
+      noButton.style.transition = "opacity 1s";
+      setTimeout(() => {
+        yesButton.style.opacity = "1";
+        noButton.style.opacity = "1";
+      }, 200);
+    }, 1000);
+  });
 
   // YES button action
   yesButton.addEventListener("click", function() {
@@ -102,21 +108,31 @@ First-class isn't a dream; it's a decision. Rise, push forward, and execute!`;
     typingText.style.opacity = "0";
     setTimeout(() => {
       typingText.style.display = "none";
-      // Randomly pick a NO message from our array
+      // Randomly pick one of the NO messages to display
       let randomNo = noReturnMessages[Math.floor(Math.random() * noReturnMessages.length)];
       promptText.innerHTML = randomNo;
-      // Show the premium signature (ensure your CSS defines a fade-in for .show)
+      // Fade in the premium signature
       signature.textContent = "— Amos Nwaka (Sliver Boy)";
-      signature.classList.add("show");
-      // Display the Return button so user can go back
+      signature.style.transition = "opacity 1.5s ease-out";
+      signature.style.opacity = "1";
+      // Display the Return button
       returnBtn.style.display = "inline-block";
     }, 500);
   });
 
-  // Enable the execute button when input is entered
+  // Enable the Execute button when input is entered
   usernameInput.addEventListener("input", function() {
     executeButton.disabled = !usernameInput.value.trim();
   });
+
+  // Success messages array for execution result
+  const successMessages = [
+    "🔥 Well done, [username]! You've just unlocked another level of greatness. Keep executing, keep winning!",
+    "🚀 Boom! Execution complete. Success is now in motion, [username]. Your journey to the top continues!",
+    "💡 Genius move, [username]! Execution isn't magic—it's strategy. Stay sharp and conquer!",
+    "✨ [username], you've executed with precision. The world bends to your will. Onward to victory!",
+    "⚡ Execution successful, [username]! Your code is your legacy. Build, dominate, and inspire!"
+  ];
 
   // Execute button action
   executeButton.addEventListener("click", function() {
@@ -136,9 +152,10 @@ First-class isn't a dream; it's a decision. Rise, push forward, and execute!`;
         // Randomly pick a success message and replace [username]
         let randomSuccess = successMessages[Math.floor(Math.random() * successMessages.length)];
         finalMessage.innerHTML = randomSuccess.replace("[username]", username);
-        // Show the premium signature
+        // Fade in signature if not already visible
         signature.textContent = "— Amos Nwaka (Sliver Boy)";
-        signature.classList.add("show");
+        signature.style.transition = "opacity 1.5s ease-out";
+        signature.style.opacity = "1";
         // Display the Return button
         returnBtn.style.display = "inline-block";
         // Trigger confetti effect (if the library is loaded)
