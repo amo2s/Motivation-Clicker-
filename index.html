@@ -3,19 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motivation Booster</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Execute & Rise</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="motivation"></div>
-    <div id="buttons">
-        <button id="yes">YES</button>
-        <button id="no">NO</button>
+    <div class="container">
+        <h1 class="title">🚀 CODE. COMPILE. EXECUTE.</h1>
+        <p class="typing"></p> <!-- Typing animation here -->
+        <p class="prompt"></p> <!-- Are you ready? -->
+
+        <div class="button-container">
+            <button id="yes-btn" class="hidden">YES ✅</button>
+            <button id="no-btn" class="hidden">NO ❌</button>
+        </div>
+
+        <!-- Input Section -->
+        <div id="name-section" class="glass-input-container hidden">
+            <input type="text" id="username" placeholder="Enter your name...">
+            <button id="execute-btn" disabled>COMPILE & EXECUTE ⚡</button>
+        </div>
+
+        <!-- Final Result -->
+        <div class="result hidden">
+            <div class="cup">🏆</div>
+            <p class="final-message"></p>
+            <p class="signature"></p>
+            <button id="home-btn">🏠 Return Home</button>
+        </div>
     </div>
-    <div id="signature">— Sliverboy</div>
-    <canvas id="confetti"></canvas>
 
     <script src="script.js"></script>
 </body>
-</html>
+</html> 
