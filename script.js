@@ -173,3 +173,58 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(showOptions, 1200); // Show Yes/No options after message appears
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const typingText = document.querySelector(".typing");
+  const promptText = document.querySelector(".prompt");
+  const yesButton = document.getElementById("yes-btn");
+  const noButton = document.getElementById("no-btn");
+
+  // Hide buttons initially
+  yesButton.style.display = "none";
+  noButton.style.display = "none";
+
+  // Different messages based on user return type
+  const noReturnMessages = [
+    "Changed your mind? I knew you would. Let’s go!",
+    "Back again? I respect the hustle. Let’s get coding!",
+    "You hesitated… but destiny brought you back. Let's do this!"
+  ];
+
+  const yesReturnMessages = [
+    "Back for another round? Keep pushing, legend!",
+    "Greatness is built through consistency. Let’s go!",
+    "Welcome back, champion! Another mission awaits!"
+  ];
+
+  // Check if user has returned and what they chose before
+  let previousChoice = localStorage.getItem("userChoice");
+
+  // If user is returning, show a dynamic message
+  if (previousChoice === "no") {
+    typingText.textContent = noReturnMessages[Math.floor(Math.random() * noReturnMessages.length)];
+  } else if (previousChoice === "yes") {
+    typingText.textContent = yesReturnMessages[Math.floor(Math.random() * yesReturnMessages.length)];
+  } else {
+    // Default motivational text for first-time users
+    typingText.textContent = "Success isn't about luck—it's about discipline, resilience, and execution.";
+  }
+
+  // Wait for message to display, then show buttons
+  setTimeout(() => {
+    promptText.textContent = "Are you ready to execute?";
+    setTimeout(() => {
+      yesButton.style.display = "inline-block";
+      noButton.style.display = "inline-block";
+    }, 500);
+  }, 1500);
+
+  // Store user's choice in localStorage
+  yesButton.addEventListener("click", function () {
+    localStorage.setItem("userChoice", "yes");
+  });
+
+  noButton.addEventListener("click", function () {
+    localStorage.setItem("userChoice", "no");
+  });
+});
