@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execute & Rise</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="title">🚀 CODE. COMPILE. EXECUTE.</h1>
+        <p class="typing"></p> <!-- Where motivation types out -->
+        <p class="prompt"></p> <!-- "Are you ready to execute?" message -->
+
+        <div class="button-container">
+            <button id="yes-btn">YES ✅</button>
+            <button id="no-btn">NO ❌</button>
+        </div>
+
+        <!-- Glassmorphic Input Section -->
+        <div id="name-section" class="glass-input-container">
+            <input type="text" id="username" placeholder="Enter your name to execute...">
+            <button id="execute-btn" disabled>COMPILE & EXECUTE ⚡</button>
+        </div>
+
+        <div class="result">
+            <div class="cup">🏆</div>
+            <p class="final-message"></p>
+            <p class="signature"></p> <!-- Dynamic Signature -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
