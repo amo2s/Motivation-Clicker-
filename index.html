@@ -1,36 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Execute & Rise</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dream It. Code It. Own It.</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Header with upgraded text and animation -->
+  <header>
+    <h1 class="title">DREAM IT. CODE IT. OWN IT.</h1>
+  </header>
 
-    <div class="container">
-        <h1 class="title">🚀 CODE. COMPILE. EXECUTE.</h1>
-        <p class="typing"></p> <!-- Where motivation types out -->
-        <p class="prompt"></p> <!-- "Are you ready to execute?" message -->
+  <div class="container">
+    <!-- Initial motivational typing text -->
+    <p class="typing"></p>
+    <p class="prompt"></p>
 
-        <div class="button-container">
-            <button id="yes-btn">YES ✅</button>
-            <button id="no-btn">NO ❌</button>
-        </div>
-
-        <!-- Glassmorphic Input Section -->
-        <div id="name-section" class="glass-input-container">
-            <input type="text" id="username" placeholder="Enter your name to execute...">
-            <button id="execute-btn" disabled>COMPILE & EXECUTE ⚡</button>
-        </div>
-
-        <div class="result">
-            <div class="cup">🏆</div>
-            <p class="final-message"></p>
-            <p class="signature"></p> <!-- Dynamic Signature -->
-        </div>
+    <!-- YES/NO button container -->
+    <div class="button-container">
+      <button id="yes-btn">YES ✅</button>
+      <button id="no-btn">NO ❌</button>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Glassmorphic input section for name entry -->
+    <div id="name-section" class="glass-input-container">
+      <input type="text" id="username" placeholder="Enter your name to execute...">
+      <button id="execute-btn" disabled>EXECUTE ⚡</button>
+    </div>
+
+    <!-- Results section -->
+    <div class="result">
+      <p class="final-message"></p>
+      <p class="signature"></p>
+    </div>
+
+    <!-- Return to Main button -->
+    <button id="return-btn" class="return-btn">Return to Main</button>
+  </div>
+
+  <!-- Confetti library (if confetti effect is desired) -->
+  <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
