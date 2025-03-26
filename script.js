@@ -1,79 +1,81 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const motivationText = "You are stronger than you think!";
-    const motivationElement = document.getElementById("motivation");
-    const signatureElement = document.getElementById("signature");
-    const buttons = document.getElementById("buttons");
+    const typingText = document.querySelector('.typing');
+    const yesButton = document.getElementById('yes-btn');
+    const noButton = document.getElementById('no-btn');
+    const nameSection = document.querySelector('.glass-input-container');
+    const executeButton = document.getElementById('execute-btn');
+    const usernameInput = document.getElementById('username');
+    const resultSection = document.querySelector('.result');
+    const finalMessage = document.querySelector('.final-message');
+    const signature = document.querySelector('.signature');
+
+    const motivation = `"Success isn't luck—it’s discipline, resilience, and execution. 
+    Every step forward brings you closer. Debug failures, push through challenges, and EXECUTE!"`;
 
     let index = 0;
-    function typeText() {
-        if (index < motivationText.length) {
-            motivationElement.innerHTML += motivationText.charAt(index);
+
+    function typeEffect() {
+        if (index < motivation.length) {
+            typingText.textContent += motivation[index];
             index++;
-            setTimeout(typeText, 50);
+            setTimeout(typeEffect, 50);
         } else {
             setTimeout(() => {
-                buttons.style.opacity = "1";
-                buttons.style.transform = "translateY(0)";
-                signatureElement.style.animation = "handwriting 2s forwards";
-                signatureElement.style.opacity = "1";
+                yesButton.style.display = "inline-block";
+                noButton.style.display = "inline-block";
             }, 500);
         }
     }
-    typeText();
+    typeEffect();
 
-    // Confetti Effect on YES Button Click
-    document.getElementById("yes").addEventListener("click", function () {
-        launchConfetti();
+    yesButton.addEventListener('click', function () {
+        fadeOut(typingText, () => {
+            nameSection.style.display = "block";
+        });
     });
 
-    function launchConfetti() {
-        const canvas = document.getElementById("confetti");
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const confettiPieces = [];
+    noButton.addEventListener('click', function () {
+        fadeOut(typingText, () => {
+            finalMessage.innerHTML = `"Not everyone is ready, and that’s okay. But hesitation delays greatness."`;
+            fadeIn(signature);
+        });
+    });
 
-        class Confetti {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height - canvas.height;
-                this.size = Math.random() * 10 + 5;
-                this.speedY = Math.random() * 3 + 2;
-                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            }
-
-            update() {
-                this.y += this.speedY;
-                if (this.y > canvas.height) {
-                    this.y = 0;
-                    this.x = Math.random() * canvas.width;
-                }
-            }
-
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+    executeButton.addEventListener('click', function () {
+        let username = usernameInput.value.trim();
+        if (!username) {
+            alert("Enter your name to execute!");
+            return;
         }
 
-        function createConfetti() {
-            for (let i = 0; i < 100; i++) {
-                confettiPieces.push(new Confetti());
-            }
-        }
-
-        function animateConfetti() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            confettiPieces.forEach((piece) => {
-                piece.update();
-                piece.draw();
+        executeButton.textContent = "Executing...";
+        setTimeout(() => {
+            fadeOut(nameSection, () => {
+                finalMessage.innerHTML = `Well done, <strong>${username}</strong>! 🎉 You've executed with excellence.<br>Success isn’t magic—it’s execution. 🚀<br><strong>— Amos Nwaka (Sliver Boy) 🚀</strong>`;
+                fadeIn(signature);
+                startConfetti();
             });
-            requestAnimationFrame(animateConfetti);
-        }
+        }, 2000);
+    });
 
-        createConfetti();
-        animateConfetti();
+    function fadeOut(element, callback) {
+        element.style.opacity = "0";
+        setTimeout(() => {
+            element.style.display = "none";
+            if (callback) callback();
+        }, 500);
+    }
+
+    function fadeIn(element) {
+        element.style.display = "block";
+        setTimeout(() => {
+            element.style.opacity = "1";
+        }, 50);
+    }
+
+    function startConfetti() {
+        const confettiSettings = { target: 'confetti-canvas' };
+        const confetti = new ConfettiGenerator(confettiSettings);
+        confetti.render();
     }
 });
