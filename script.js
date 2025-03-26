@@ -129,3 +129,47 @@ First-class isn't a dream; it's a decision. Rise, push forward, and execute!`;
     location.reload();
   });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Smooth fade-in effect for the header
+    const header = document.querySelector("header");
+    header.style.opacity = "0";
+    header.style.transform = "translateY(-20px)";
+    setTimeout(() => {
+        header.style.transition = "opacity 1.5s ease-out, transform 1.5s ease-out";
+        header.style.opacity = "1";
+        header.style.transform = "translateY(0)";
+    }, 500);
+
+    // Smooth fade-in effect for the signature
+    const signature = document.querySelector(".signature");
+    if (signature) {
+        signature.style.opacity = "0";
+        signature.style.transform = "translateY(20px)";
+        setTimeout(() => {
+            signature.style.transition = "opacity 1.5s ease-out, transform 1.5s ease-out";
+            signature.style.opacity = "1";
+            signature.style.transform = "translateY(0)";
+        }, 1000);
+    }
+
+    // Function to show Yes/No options only after the message appears
+    function showOptions() {
+        const options = document.getElementById("yesNoOptions");
+        options.style.display = "block";
+        options.style.opacity = "0";
+        setTimeout(() => {
+            options.style.transition = "opacity 1s ease-in-out";
+            options.style.opacity = "1";
+        }, 1000); // Delay to make it appear after the message
+    }
+
+    // Example function when Execute is clicked
+    document.getElementById("executeButton").addEventListener("click", function () {
+        const message = document.getElementById("resultMessage");
+        message.innerHTML = "Congratulations! 🎉";  // Example success message
+        message.style.display = "block";
+
+        setTimeout(showOptions, 1200); // Show Yes/No options after message appears
+    });
+});
